@@ -19,6 +19,7 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "groupsidgen")
     private Long id;
     private String name;
-    @OneToMany(mappedBy="group", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Member> members;
+    
 }
