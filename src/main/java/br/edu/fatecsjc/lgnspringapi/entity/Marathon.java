@@ -3,6 +3,8 @@ package br.edu.fatecsjc.lgnspringapi.entity;
 import jakarta.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "marathon")
 public class Marathon {
@@ -17,6 +19,7 @@ public class Marathon {
 
   @ManyToOne
   @JoinColumn(name = "organization_id")
+  @JsonBackReference
   private Organization organization;
 
   @OneToMany(mappedBy = "marathon", cascade = CascadeType.ALL)
@@ -42,11 +45,11 @@ public class Marathon {
   public String getDate() {
     return date;
   }
-  
+
   public void setDate(String date) {
     this.date = date;
   }
- 
+
   public Organization getOrganization() {
     return organization;
   }
