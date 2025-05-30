@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Getter
 @Setter
 @ToString(exclude = "members")
@@ -20,6 +22,8 @@ public class Group {
     private Long id;
     private String name;
     @OneToMany(mappedBy = "group", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Member> members;
+    @JsonManagedReference
+    @Builder.Default
+    private List<Member> members = new java.util.ArrayList<>();
     
 }

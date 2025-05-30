@@ -14,14 +14,12 @@ import java.util.List;
 @Service
 public class GroupService {
     private final GroupRepository groupRepository;
-    // private final MemberRepository memberRepository;
     private final GroupConverter groupConverter;
 
     public GroupService(GroupRepository groupRepository,
             MemberRepository memberRepository,
             GroupConverter groupConverter) {
         this.groupRepository = groupRepository;
-        // this.memberRepository = memberRepository;
         this.groupConverter = groupConverter;
     }
 
@@ -40,13 +38,10 @@ public class GroupService {
         Group entity = groupRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Group not found with id " + id));
 
-        // Atualiza os dados do grupo
         entity.setName(dto.getName());
 
-        // Remove os membros que não existem mais
         entity.getMembers().clear();
 
-        // Adiciona os membros atualizados
         dto.getMembers().forEach(memberDTO -> {
             Member member = Member.builder()
                     .id(memberDTO.getId()) // 
