@@ -40,7 +40,6 @@ public class OrganizationMapper {
     organization.setCep(dto.getCep());
     organization.setMunicipality(dto.getMunicipality());
     organization.setState(dto.getState());
-    // ⚠️ normalmente não setamos marathons aqui
     return organization;
   }
 }
