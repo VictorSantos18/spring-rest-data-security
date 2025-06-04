@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+@Data
 @Getter
 @Setter
 @ToString(exclude = "members")
