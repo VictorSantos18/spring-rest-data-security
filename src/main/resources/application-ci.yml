@@ -17,4 +17,4 @@ spring:
     database: mysql
 
   flyway:
-    enabled: true
+    enabled: false
