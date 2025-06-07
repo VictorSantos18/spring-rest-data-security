@@ -88,10 +88,13 @@ jobs:
         run: |
           echo "Aguardando MariaDB subir na porta 3306..."
           for i in {1..30}; do
-            nc -z 127.0.0.1 3306 && echo "MariaDB está pronto!" && break
-            echo "Aguardando..."
+            nc -z 127.0.0.1 3306 && echo "MariaDB está pronto!" && exit 0
+            echo "Ainda não disponível, aguardando..."
             sleep 2
           done
+          echo "Timeout: MariaDB não respondeu na porta 3306 em 60s."
+          exit 1
+
 
       - name: Run System Tests
         run: mvn verify -Dspring.profiles.active=ci
