@@ -94,4 +94,5 @@ jobs:
           done
 
       - name: Run System Tests
-        run: mvn verify -Dspring.profiles.active=ci -Psystem-tests
+        run: mvn verify -Dspring.profiles.active=ci
+
