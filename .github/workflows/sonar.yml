@@ -58,24 +58,24 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn verify sonar:sonar -Dsonar.projectKey=VictorSantos18_spring-rest-data-security -Dsonar.organization=victorsantos18 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
 
-  system-test:
+    system-test:
     name: API System Tests
     needs: static-analysis
     runs-on: ubuntu-latest
 
     services:
-      postgres:
-        image: postgres:15
+      mariadb:
+        image: mariadb
         ports:
-          - 5432:5432
+          - 3306:3306
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          MARIADB_ROOT_PASSWORD: root
+          MARIADB_DATABASE: sample
         options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          --health-cmd="mysqladmin ping -h localhost -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
       - name: Checkout Repository
@@ -87,5 +87,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Wait for MariaDB
+        run: |
+          echo "Aguardando MariaDB..."
+          for i in {1..30}; do
+            nc -z 127.0.0.1 3306 && echo "MariaDB está pronto!" && break
+            echo "Aguardando..."
+            sleep 2
+          done
+
       - name: Run System Tests
-        run: mvn verify -Psystem-tests
+        run: mvn verify -Dspring.profiles.active=ci -Psystem-tests
+
